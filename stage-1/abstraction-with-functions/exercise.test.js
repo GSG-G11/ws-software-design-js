@@ -6,7 +6,7 @@ describe('Abstraction with Functions', function () {
   test('capitaliseObjectKeys', () => {
     const input = { foo: 'foo', bar: 'bar' };
 
-    const result = exercise.capitaliseObjectKeys(input);
+    const result = exercise.capitalizeObjectKeys(input);
 
     expect(result).toEqual({ Foo: 'foo', Bar: 'bar' });
   });
@@ -14,7 +14,7 @@ describe('Abstraction with Functions', function () {
   test('capitaliseObjectValues', () => {
     const input = { foo: 'foo', bar: 'bar' };
 
-    const result = exercise.capitaliseObjectValues(input);
+    const result = exercise.capitalizeObjectValues(input);
 
     expect(result).toEqual({ foo: 'Foo', bar: 'Bar' });
   });

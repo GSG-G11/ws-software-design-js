@@ -17,23 +17,39 @@
  * |          |     |                |   |      |  |             |
  * | protocol |     |    domain      |   | path |  | querystring |
  */
-var UrlParser = (function () {
-  // fill in ...
+let UrlParser = (function () {
+  let urlRegEx = /^([a-z]+):\/\/([a-z\.]+)\/([^\?]+)\?(.+)$/i;
+
+  function getMatch (string) {
+    return string.match(urlRegEx);
+  }
+
+  function numberBasicStructure (n, array) {
+    return (array || [])[n];
+  }
 
   return {
     // a function that takes a URL and returns its protocol
-    protocol: null,
+    protocol: function getProtocol (url) {
+      return numberBasicStructure(1, getMatch(url));
+    },
 
     // a function that takes a URL and returns its domain
-    domain: null,
+    domain: function getDomain (url) {
+      return numberBasicStructure(2, getMatch(url));
+    },
 
     // a function that takes a URL and returns its path
-    path: null,
+    path: function getPath (url) {
+      return numberBasicStructure(3, getMatch(url));
+    },
 
     // a function that takes a URL and returns its query string
-    querystring: null,
+    querystring: function getQueryString (url) {
+      return numberBasicStructure(4, getMatch(url));
+    },
   };
-});
+})();
 
 
 /*
@@ -42,21 +58,58 @@ var UrlParser = (function () {
  * attributes.
  *
  * Example:
- * var exampleBuilder = createUrlBuilder('https://example.com');
+ * let exampleBuilder = createUrlBuilder('https://example.com');
  *
- * var url = exampleBuilder({ query: { foo: 1, bar: 2 }, path: 'hello' });
+ * let url = exampleBuilder({ query: { foo: 1, bar: 2 }, path: 'hello' });
  *
  * console.log(url); // https://example.com/hello?foo=1&bar=2
  *
  * exampleBuilder.
  */
-var createUrlBuilder = function (host) {
-  // fill in ...
 
-  var builder = function () {}
+let createUrlBuilder = function (host) {
+
+  function queryObjectToString (query) {
+    return Object.keys(query)
+      .map(function (key) {
+        return key + '=' + query[key];
+      })
+      .join('&');
+  }
+
+  function appendPath (base, path) {
+    return base + '/' + path;
+  }
+
+  function appendQueryString (base, query) {
+    return base + '?' + queryObjectToString(query);
+  }
+
+  let builder = function (config) {
+    let url = host;
+
+    if (config.path) {
+      url = appendPath(url, config.path);
+    }
+
+    if (config.query) {
+      url = appendQueryString(url, config.query);
+    }
+
+    return url;
+  };
+
+  builder.path = function (path) {
+    return appendPath(host, path);
+  };
+
+  builder.query = function (query) {
+    return appendQueryString(host, query);
+  };
 
   return builder;
 };
+
 
 
 module.exports = {

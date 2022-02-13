@@ -19,59 +19,56 @@
  */
 'use strict';
 
-function capitaliseObjectKeys (input) {
-  const keys = Object.keys(input);
-  const result = {};
 
-  for (var ii = 0; ii < keys.length; ii++) {
-    const capitalisedKey = keys[ii].slice(0, 1).toUpperCase().concat(keys[ii].slice(1));
-    result[capitalisedKey] = input[keys[ii]];
-  }
-
-  return result;
+// ahmed => Ahmed
+function capitalize (str) {
+  return str.slice(0, 1).toUpperCase().concat(str.slice(1));
+}
+function reverse (str) {
+  return str.split('').reverse().join('');
+}
+function incrementByOne (number) {
+  return number + 1;
 }
 
 
-function capitaliseObjectValues (input) {
-  const keys = Object.keys(input);
-  const result = {};
+function capitalizeObjectKeys (input) {
+  return Object.keys(input)
+    .reduce(function (acc, key) {
+      acc[capitalize(key)] = input[key];
+      return acc;
+    }, {});
+}
 
-  for (var ii = 0; ii < keys.length; ii++) {
-    const value = input[keys[ii]];
-    const capitalisedValue = value.slice(0, 1).toUpperCase().concat(value.slice(1));
-    result[keys[ii]] = capitalisedValue;
-  }
 
-  return result;
+function capitalizeObjectValues (input) {
+  return Object.keys(input)
+    .reduce(function (acc, key) {
+      acc[key] = capitalize(input[key]);
+      return acc;
+    }, {});
 }
 
 function incrementObjectValues (input) {
-  const keys = Object.keys(input);
-  const result = {};
-
-  for (var ii = 0; ii < keys.length; ii++) {
-    const value = input[keys[ii]];
-    result[keys[ii]] = value + 1;
-  }
-
-  return result;
+  return Object.keys(input)
+    .reduce(function (acc, key) {
+      acc[key] = incrementByOne(input[key]);
+      return acc;
+    }, {});
 }
 
 function reverseObjectKeys (input) {
-  const keys = Object.keys(input);
-  const result = {};
-
-  for (var ii = 0; ii < keys.length; ii++) {
-    const reversedKey = keys[ii].split('').reverse().join('');
-    result[reversedKey] = input[keys[ii]];
-  }
-
-  return result;
+  return Object.keys(input)
+    .reduce(function (acc, key) {
+      const reversedKey = reverse(key);
+      acc[reversedKey] = input[key];
+      return acc;
+    }, {});
 }
 
 module.exports = {
-  capitaliseObjectKeys,
-  capitaliseObjectValues,
+  capitalizeObjectKeys,
+  capitalizeObjectValues,
   incrementObjectValues,
   reverseObjectKeys,
 };
