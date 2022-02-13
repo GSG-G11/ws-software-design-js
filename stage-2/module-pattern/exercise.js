@@ -30,22 +30,22 @@ let UrlParser = (function () {
 
   return {
     // a function that takes a URL and returns its protocol
-    protocol: function getProtocol (url) {
+    protocol: function (url) {
       return numberBasicStructure(1, getMatch(url));
     },
 
     // a function that takes a URL and returns its domain
-    domain: function getDomain (url) {
+    domain: function (url) {
       return numberBasicStructure(2, getMatch(url));
     },
 
     // a function that takes a URL and returns its path
-    path: function getPath (url) {
+    path: function (url) {
       return numberBasicStructure(3, getMatch(url));
     },
 
     // a function that takes a URL and returns its query string
-    querystring: function getQueryString (url) {
+    querystring: function (url) {
       return numberBasicStructure(4, getMatch(url));
     },
   };
